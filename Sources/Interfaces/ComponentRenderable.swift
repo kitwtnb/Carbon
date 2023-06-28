@@ -42,6 +42,7 @@ internal extension ComponentRenderable {
     ///
     /// - Parameter:
     ///   - component: A component to be rendered.
+    @MainActor
     func render(component: AnyComponent) {
         switch (renderedContent, renderedComponent) {
         case (let content?, let renderedComponent?) where !renderedComponent.shouldRender(next: component, in: content):

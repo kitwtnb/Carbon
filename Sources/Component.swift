@@ -43,12 +43,14 @@ public protocol Component {
     /// Returns a new instance of `Content`.
     ///
     /// - Returns: A new `Content` instance.
+    @MainActor
     func renderContent() -> Content
 
     /// Render properties into the content.
     ///
     /// - Parameter:
     ///   - content: An instance of `Content` laid out on the element of list UI.
+    @MainActor
     func render(in content: Content)
 
     // MARK: - Rendering - optional

@@ -29,6 +29,7 @@ public extension ComponentWrapping {
     /// Returns a new instance of `Content`.
     ///
     /// - Returns: A new `Content` instance.
+    @MainActor
     @inlinable
     func renderContent() -> Wrapped.Content {
         return wrapped.renderContent()
@@ -38,6 +39,7 @@ public extension ComponentWrapping {
     ///
     /// - Parameter:
     ///   - content: An instance of `Content` laid out on the element of list UI.
+    @MainActor
     @inlinable
     func render(in content: Wrapped.Content) {
         wrapped.render(in: content)
