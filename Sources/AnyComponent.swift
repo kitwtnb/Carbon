@@ -184,11 +184,13 @@ internal struct ComponentBox<Base: Component>: AnyComponentBox {
         baseComponent = base
     }
 
+    @MainActor
     @inlinable
     func renderContent() -> Any {
         return baseComponent.renderContent()
     }
 
+    @MainActor
     @inlinable
     func render(in content: Any) {
         guard let content = content as? Base.Content else { return }

@@ -248,6 +248,7 @@ private extension UITableViewAdapter {
         return node.component.referenceSize(in: tableView.bounds)?.height ?? defaultHeight
     }
 
+    @MainActor
     func dequeueComponentHeaderFooterView(
         tableView: UITableView,
         section: Int,
