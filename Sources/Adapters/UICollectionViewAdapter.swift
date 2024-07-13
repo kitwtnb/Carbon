@@ -84,13 +84,13 @@ public extension UICollectionViewAdapter {
     /// Registration info for collection view cell.
     struct CellRegistration {
         /// A class for register cell conforming `ComponentRenderable`.
-        public var `class`: (UICollectionViewCell & ComponentRenderable).Type
+        public var `class`: any (UICollectionViewCell & ComponentRenderable).Type
 
         /// The nib for register cell.
         public var nib: UINib?
 
         /// Create a new registration.
-        public init(class: (UICollectionViewCell & ComponentRenderable).Type, nib: UINib? = nil) {
+        public init(class: any (UICollectionViewCell & ComponentRenderable).Type, nib: UINib? = nil) {
             self.class = `class`
             self.nib = nib
         }
@@ -99,13 +99,13 @@ public extension UICollectionViewAdapter {
     /// Registration info for collection view supplementary view.
     struct ViewRegistration {
         /// A class for register supplementary view conforming `ComponentRenderable`.
-        public var `class`: (UICollectionReusableView & ComponentRenderable).Type
+        public var `class`: any (UICollectionReusableView & ComponentRenderable).Type
 
         /// The nib for register supplementary view.
         public var nib: UINib?
 
         /// Create a new registration.
-        public init(class: (UICollectionReusableView & ComponentRenderable).Type, nib: UINib? = nil) {
+        public init(class: any (UICollectionReusableView & ComponentRenderable).Type, nib: UINib? = nil) {
             self.class = `class`
             self.nib = nib
         }
@@ -143,7 +143,7 @@ extension UICollectionViewAdapter: UICollectionViewDataSource {
         let componentCell = collectionView._dequeueReusableCell(
             withReuseIdentifier: reuseIdentifier,
             for: indexPath
-            ) as? UICollectionViewCell & ComponentRenderable
+            ) as? any (UICollectionViewCell & ComponentRenderable)
 
         guard let cell = componentCell, cell.isMember(of: registration.class) else {
             collectionView.register(cell: registration, forReuseIdentifier: reuseIdentifier)
@@ -184,22 +184,22 @@ extension UICollectionViewAdapter: UICollectionViewDelegate {
 
     /// The event that the cell will display in the visible rect.
     open func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        (cell as? ComponentRenderable)?.contentWillDisplay()
+        (cell as? (any ComponentRenderable))?.contentWillDisplay()
     }
 
     /// The event that the cell did left from the visible rect.
     open func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        (cell as? ComponentRenderable)?.contentDidEndDisplay()
+        (cell as? (any ComponentRenderable))?.contentDidEndDisplay()
     }
 
     /// The event that the header or footer will display in the visible rect.
     open func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
-        (view as? ComponentRenderable)?.contentWillDisplay()
+        (view as? (any ComponentRenderable))?.contentWillDisplay()
     }
 
     /// The event that the header or footer did left from the visible rect.
     open func collectionView(_ collectionView: UICollectionView, didEndDisplayingSupplementaryView view: UICollectionReusableView, forElementOfKind elementKind: String, at indexPath: IndexPath) {
-        (view as? ComponentRenderable)?.contentDidEndDisplay()
+        (view as? (any ComponentRenderable))?.contentDidEndDisplay()
     }
 }
 
@@ -217,7 +217,7 @@ private extension UICollectionViewAdapter {
             ofKind: kind,
             withReuseIdentifier: reuseIdentifier,
             for: indexPath
-            ) as? UICollectionReusableView & ComponentRenderable
+            ) as? any (UICollectionReusableView & ComponentRenderable)
 
         guard let view = componentView, view.isMember(of: registration.class) else {
             collectionView.register(supplementaryView: registration, forSupplementaryViewOfKind: kind, forReuseIdentifier: reuseIdentifier)

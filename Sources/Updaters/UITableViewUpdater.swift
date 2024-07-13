@@ -192,19 +192,19 @@ open class UITableViewUpdater<Adapter: UITableViewAdapter>: Updater {
                     }
 
                     if let headerNode = adapter.headerNode(in: section) {
-                        let view = target.headerView(forSection: section) as? ComponentRenderable
+                        let view = target.headerView(forSection: section) as? (any ComponentRenderable)
                         view?.render(component: headerNode.component)
                     }
 
                     if let footerNode = adapter.footerNode(in: section) {
-                        let view = target.footerView(forSection: section) as? ComponentRenderable
+                        let view = target.footerView(forSection: section) as? (any ComponentRenderable)
                         view?.render(component: footerNode.component)
                     }
                 }
 
                 for indexPath in target.indexPathsForVisibleRows ?? [] {
                     let cellNode = adapter.cellNode(at: indexPath)
-                    let cell = target.cellForRow(at: indexPath) as? ComponentRenderable
+                    let cell = target.cellForRow(at: indexPath) as? (any ComponentRenderable)
                     cell?.render(component: cellNode.component)
                 }
             }

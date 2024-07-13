@@ -137,7 +137,7 @@ public struct Section {
     ///   - id: An identifier to be wrapped.
     ///   - header: A header component.
     ///   - cells: A closure that constructs cells.
-    public init<I: Hashable, H: Component>(id: I, header: H?, @CellsBuilder cells: () -> CellsBuildable) {
+    public init<I: Hashable, H: Component>(id: I, header: H?, @CellsBuilder cells: () -> any CellsBuildable) {
         self.init(
             id: id,
             header: header.map(ViewNode.init),

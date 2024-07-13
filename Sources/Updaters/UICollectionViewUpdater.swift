@@ -159,14 +159,14 @@ open class UICollectionViewUpdater<Adapter: UICollectionViewAdapter>: Updater {
                             continue
                         }
 
-                        let view = target.supplementaryView(forElementKind: kind, at: indexPath) as? ComponentRenderable
+                        let view = target.supplementaryView(forElementKind: kind, at: indexPath) as? (any ComponentRenderable)
                         view?.render(component: node.component)
                     }
                 }
 
                 for indexPath in target.indexPathsForVisibleItems {
                     let cellNode = adapter.cellNode(at: indexPath)
-                    let cell = target.cellForItem(at: indexPath) as? ComponentRenderable
+                    let cell = target.cellForItem(at: indexPath) as? (any ComponentRenderable)
                     cell?.render(component: cellNode.component)
                 }
             })

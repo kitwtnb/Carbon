@@ -63,13 +63,13 @@ public extension UITableViewAdapter {
     /// Registration info for table view cell.
     struct CellRegistration {
         /// A class for register cell conforming `ComponentRenderable`.
-        public var `class`: (UITableViewCell & ComponentRenderable).Type
+        public var `class`: any (UITableViewCell & ComponentRenderable).Type
 
         /// The nib for register cell.
         public var nib: UINib?
 
         /// Create a new registration.
-        public init(class: (UITableViewCell & ComponentRenderable).Type, nib: UINib? = nil) {
+        public init(class: any (UITableViewCell & ComponentRenderable).Type, nib: UINib? = nil) {
             self.class = `class`
             self.nib = nib
         }
@@ -78,13 +78,13 @@ public extension UITableViewAdapter {
     /// Registration info for table view header or footer view.
     struct ViewRegistration {
         /// A class for register header or footer view conforming `ComponentRenderable`.
-        public var `class`: (UITableViewHeaderFooterView & ComponentRenderable).Type
+        public var `class`: any (UITableViewHeaderFooterView & ComponentRenderable).Type
 
         /// The nib for register header or footer view.
         public var nib: UINib?
 
         /// Create a new registration.
-        public init(class: (UITableViewHeaderFooterView & ComponentRenderable).Type, nib: UINib? = nil) {
+        public init(class: any (UITableViewHeaderFooterView & ComponentRenderable).Type, nib: UINib? = nil) {
             self.class = `class`
             self.nib = nib
         }
@@ -119,7 +119,7 @@ extension UITableViewAdapter: UITableViewDataSource {
         let node = cellNode(at: indexPath)
         let registration = cellRegistration(tableView: tableView, indexPath: indexPath, node: node)
         let reuseIdentifier = node.component.reuseIdentifier
-        let componentCell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier) as? UITableViewCell & ComponentRenderable
+        let componentCell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier) as? any (UITableViewCell & ComponentRenderable)
 
         guard let cell = componentCell, cell.isMember(of: registration.class) else {
             tableView.register(cell: registration, forReuseIdentifier: reuseIdentifier)
@@ -195,32 +195,32 @@ extension UITableViewAdapter: UITableViewDelegate {
 
     /// The event that the cell will display in the visible rect.
     open func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        (cell as? ComponentRenderable)?.contentWillDisplay()
+        (cell as? (any ComponentRenderable))?.contentWillDisplay()
     }
 
     /// The event that the cell did left from the visible rect.
     open func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        (cell as? ComponentRenderable)?.contentDidEndDisplay()
+        (cell as? (any ComponentRenderable))?.contentDidEndDisplay()
     }
 
     /// The event that the header will display in the visible rect.
     open func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-        (view as? ComponentRenderable)?.contentWillDisplay()
+        (view as? (any ComponentRenderable))?.contentWillDisplay()
     }
 
     /// The event that the header did left from the visible rect.
     open func tableView(_ tableView: UITableView, didEndDisplayingHeaderView view: UIView, forSection section: Int) {
-        (view as? ComponentRenderable)?.contentDidEndDisplay()
+        (view as? (any ComponentRenderable))?.contentDidEndDisplay()
     }
 
     /// The event that the footer will display in the visible rect.
     open func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
-        (view as? ComponentRenderable)?.contentWillDisplay()
+        (view as? (any ComponentRenderable))?.contentWillDisplay()
     }
 
     /// The event that the footer did left from the visible rect.
     open func tableView(_ tableView: UITableView, didEndDisplayingFooterView view: UIView, forSection section: Int) {
-        (view as? ComponentRenderable)?.contentDidEndDisplay()
+        (view as? (any ComponentRenderable))?.contentDidEndDisplay()
     }
 }
 
@@ -232,7 +232,7 @@ private extension UITableViewAdapter {
 
     func heightForHeader(in tableView: UITableView, section: Int, defaultHeight: CGFloat, leastHeight: CGFloat) -> CGFloat {
         guard let node = headerNode(in: section) else {
-            let hasHeaderTitle = responds(to: #selector(UITableViewDataSource.tableView(_:titleForHeaderInSection:)))
+            let hasHeaderTitle = responds(to: #selector((any UITableViewDataSource).tableView(_:titleForHeaderInSection:)))
             return hasHeaderTitle ? defaultHeight : leastHeight
         }
 
@@ -241,7 +241,7 @@ private extension UITableViewAdapter {
 
     func heightForFooter(in tableView: UITableView, section: Int, defaultHeight: CGFloat, leastHeight: CGFloat) -> CGFloat {
         guard let node = footerNode(in: section) else {
-            let hasFooterTitle = responds(to: #selector(UITableViewDataSource.tableView(_:titleForFooterInSection:)))
+            let hasFooterTitle = responds(to: #selector((any UITableViewDataSource).tableView(_:titleForFooterInSection:)))
             return hasFooterTitle ? defaultHeight : leastHeight
         }
 
@@ -256,7 +256,7 @@ private extension UITableViewAdapter {
         registration: ViewRegistration
         ) -> UITableViewHeaderFooterView {
         let reuseIdentifier = node.component.reuseIdentifier
-        let componentView = tableView.dequeueReusableHeaderFooterView(withIdentifier: reuseIdentifier) as? UITableViewHeaderFooterView & ComponentRenderable
+        let componentView = tableView.dequeueReusableHeaderFooterView(withIdentifier: reuseIdentifier) as? any (UITableViewHeaderFooterView & ComponentRenderable)
 
         guard let view = componentView, view.isMember(of: registration.class) else {
             tableView.register(headerFooterView: registration, forReuseIdentifier: reuseIdentifier)

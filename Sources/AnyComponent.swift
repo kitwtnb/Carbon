@@ -3,7 +3,7 @@ import UIKit
 /// A type-erased component.
 public struct AnyComponent: Component {
     @usableFromInline
-    internal let box: AnyComponentBox
+    internal let box: any AnyComponentBox
 
     /// The value wrapped by this instance.
     @inlinable
@@ -157,8 +157,8 @@ internal protocol AnyComponentBox {
     func referenceSize(in bounds: CGRect) -> CGSize?
     func layout(content: Any, in container: UIView)
     func intrinsicContentSize(for content: Any) -> CGSize
-    func shouldContentUpdate(with next: AnyComponentBox) -> Bool
-    func shouldRender(next: AnyComponentBox, in content: Any) -> Bool
+    func shouldContentUpdate(with next: any AnyComponentBox) -> Bool
+    func shouldRender(next: any AnyComponentBox, in content: Any) -> Bool
 
     func contentWillDisplay(_ content: Any)
     func contentDidEndDisplay(_ content: Any)
@@ -218,14 +218,14 @@ internal struct ComponentBox<Base: Component>: AnyComponentBox {
     }
 
     @inlinable
-    func shouldContentUpdate(with next: AnyComponentBox) -> Bool {
+    func shouldContentUpdate(with next: any AnyComponentBox) -> Bool {
         guard let next = next.base as? Base else { return true }
 
         return baseComponent.shouldContentUpdate(with: next)
     }
 
     @inlinable
-    func shouldRender(next: AnyComponentBox, in content: Any) -> Bool {
+    func shouldRender(next: any AnyComponentBox, in content: Any) -> Bool {
         guard let next = next.base as? Base, let content = content as? Base.Content else { return true }
 
         return baseComponent.shouldRender(next: next, in: content)
