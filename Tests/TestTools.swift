@@ -53,6 +53,7 @@ enum B {
     }
 }
 
+@MainActor
 class MockComponent: Component, Equatable {
     let reuseIdentifier: String
     let referenceSize: CGSize?
@@ -90,11 +91,11 @@ class MockComponent: Component, Equatable {
         contentCapturedOnRender = content
     }
 
-    func shouldContentUpdate(with next: MockComponent) -> Bool {
+    nonisolated func shouldContentUpdate(with next: MockComponent) -> Bool {
         return shouldContentUpdate
     }
 
-    func shouldRender(next: MockComponent, in content: UIView) -> Bool {
+    nonisolated func shouldRender(next: MockComponent, in content: UIView) -> Bool {
         return shouldRender
     }
 
@@ -118,7 +119,7 @@ class MockComponent: Component, Equatable {
         contentCapturedOnDidEndDisplay = content
     }
 
-    static func == (lhs: MockComponent, rhs: MockComponent) -> Bool {
+    nonisolated static func == (lhs: MockComponent, rhs: MockComponent) -> Bool {
         return lhs === rhs
     }
 }
@@ -160,7 +161,7 @@ struct MockSectionsBuildable: SectionsBuildable {
 final class MockAdapter: Adapter, Equatable {
     var data: [Section] = []
 
-    static func == (lhs: MockAdapter, rhs: MockAdapter) -> Bool {
+    nonisolated static func == (lhs: MockAdapter, rhs: MockAdapter) -> Bool {
         return lhs === rhs
     }
 }
@@ -393,6 +394,7 @@ final class MockCollectionViewUpdater: UICollectionViewUpdater<MockCollectionVie
 
 final class MockCollectionViewReloadDataUpdater: UICollectionViewReloadDataUpdater<MockCollectionViewFlowLayoutAdapter> {}
 
+@MainActor
 final class MockComponentContainer: ComponentRenderable {
     let componentContainerView: UIView
 
@@ -464,6 +466,7 @@ final class MockCustomCollectionViewAdapter: UICollectionViewAdapter {
 }
 
 /// Extract `renderedContent` from specified container.
+@MainActor
 func renderedContent<T>(of container: Any, as type: T.Type) -> T? {
     guard
         let container = container as? any ComponentRenderable,
@@ -490,10 +493,12 @@ extension Pair: Equatable where T: Equatable, U: Equatable {}
 
 /// Protocol for `UIView` utility.
 protocol UIViewConvertible: class {
+    @MainActor
     var uiView: UIView { get }
 }
 
 extension UIViewConvertible {
+    @MainActor
     func addingToWindow() -> Self {
         let window = UIWindow()
         window.layer.speed = 0

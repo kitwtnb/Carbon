@@ -57,6 +57,7 @@ public extension ComponentWrapping {
     /// - Returns: The referencing size of content to render on the list UI.
     ///            If returns nil, the element of list UI falls back to its default size
     ///            like `UITableView.rowHeight` or `UICollectionViewFlowLayout.itemSize`.
+    @MainActor
     @inlinable
     func referenceSize(in bounds: CGRect) -> CGSize? {
         return wrapped.referenceSize(in: bounds)
@@ -96,6 +97,7 @@ public extension ComponentWrapping {
     /// - Parameters:
     ///   - content: An instance of content to be laid out on top of element.
     ///   - container: A container view to layout content.
+    @MainActor
     @inlinable
     func layout(content: Wrapped.Content, in container: UIView) {
         wrapped.layout(content: content, in: container)
@@ -107,6 +109,7 @@ public extension ComponentWrapping {
     ///   - content: An instance of content.
     ///
     /// - Returns: A `CGSize` value represents a natural size of the passed content.
+    @MainActor
     func intrinsicContentSize(for content: Wrapped.Content) -> CGSize {
         return wrapped.intrinsicContentSize(for: content)
     }
@@ -115,6 +118,7 @@ public extension ComponentWrapping {
     ///
     /// - Parameter:
     ///   - content: An instance of content getting into display area.
+    @MainActor
     @inlinable
     func contentWillDisplay(_ content: Wrapped.Content) {
         wrapped.contentWillDisplay(content)
@@ -124,6 +128,7 @@ public extension ComponentWrapping {
     ///
     /// - Parameter:
     ///   - content: An instance of content going out from display area.
+    @MainActor
     @inlinable
     func contentDidEndDisplay(_ content: Wrapped.Content) {
         wrapped.contentDidEndDisplay(content)

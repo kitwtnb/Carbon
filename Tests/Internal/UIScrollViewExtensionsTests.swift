@@ -1,6 +1,7 @@
 import XCTest
 @testable import Carbon
 
+@MainActor
 final class MockScrollViewExtensionsTests: XCTestCase {
     func testIsScrolling() {
         let scrollView1 = MockScrollView()

@@ -2,6 +2,7 @@ import XCTest
 import DifferenceKit
 @testable import Carbon
 
+@MainActor
 final class UITableViewUpdaterTests: XCTestCase {
     func testSetAllAnimation() {
         let updater = MockTableViewUpdater()

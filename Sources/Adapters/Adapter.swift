@@ -1,6 +1,7 @@
 import Foundation
 
 /// Represents an adapter that holds data to be rendered.
+@MainActor
 public protocol Adapter: class {
     /// The data to be rendered.
     var data: [Section] { get set }

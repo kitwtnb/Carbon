@@ -1,6 +1,7 @@
 import XCTest
 @testable import Carbon
 
+@MainActor
 final class UICollectionViewFlowLayoutAdapterTests: XCTestCase {
     func testNumberOfSections() {
         let adapter = UICollectionViewFlowLayoutAdapter()
