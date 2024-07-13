@@ -1,6 +1,7 @@
 import XCTest
 @testable import Carbon
 
+@MainActor
 final class SectionTests: XCTestCase {
     func testInitWithFullParameters() {
         let section = Section(

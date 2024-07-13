@@ -4,12 +4,14 @@ import XCTest
 import SwiftUI
 @testable import Carbon
 
+@MainActor
 final class ComponentSwiftUISupportTests: XCTestCase {
     func testDisplayLifecycle() {
         guard #available(iOS 13.0, *) else {
             return
         }
 
+        @MainActor
         struct TestComponent: Component, View {
             var willDisplay: () -> Void
             var didEndDisplay: () -> Void
@@ -62,6 +64,7 @@ final class ComponentSwiftUISupportTests: XCTestCase {
             return
         }
 
+        @MainActor
         struct TestComponent: Component, View {
             static let testSize = CGSize(width: 123, height: 456)
 

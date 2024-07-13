@@ -235,7 +235,9 @@ private extension UICollectionViewAdapter {
     }
 }
 
+@MainActor
 private let registeredCellReuseIdentifiersAssociation = RuntimeAssociation<Set<String>>(default: [])
+@MainActor
 private let registeredViewReuseIdentifiersForKindAssociation = RuntimeAssociation<[String: Set<String>]>(default: [:])
 
 private extension UICollectionView {

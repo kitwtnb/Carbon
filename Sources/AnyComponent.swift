@@ -152,15 +152,22 @@ internal protocol AnyComponentBox {
     var base: Any { get }
     var reuseIdentifier: String { get }
 
+    @MainActor
     func renderContent() -> Any
+    @MainActor
     func render(in content: Any)
+    @MainActor
     func referenceSize(in bounds: CGRect) -> CGSize?
+    @MainActor
     func layout(content: Any, in container: UIView)
+    @MainActor
     func intrinsicContentSize(for content: Any) -> CGSize
     func shouldContentUpdate(with next: any AnyComponentBox) -> Bool
     func shouldRender(next: any AnyComponentBox, in content: Any) -> Bool
 
+    @MainActor
     func contentWillDisplay(_ content: Any)
+    @MainActor
     func contentDidEndDisplay(_ content: Any)
 }
 
@@ -184,13 +191,11 @@ internal struct ComponentBox<Base: Component>: AnyComponentBox {
         baseComponent = base
     }
 
-    @MainActor
     @inlinable
     func renderContent() -> Any {
         return baseComponent.renderContent()
     }
 
-    @MainActor
     @inlinable
     func render(in content: Any) {
         guard let content = content as? Base.Content else { return }

@@ -2,6 +2,7 @@ import XCTest
 import DifferenceKit
 @testable import Carbon
 
+@MainActor
 final class UICollectionViewReloadDataTests: XCTestCase {
     func testPrepare() {
         let updater = MockCollectionViewReloadDataUpdater()
